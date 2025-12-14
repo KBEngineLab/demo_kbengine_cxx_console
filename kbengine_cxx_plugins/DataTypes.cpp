@@ -464,7 +464,7 @@ void DATATYPE_ARRAY::addToStream(Bundle& stream, KBVariant& v)
 	if (v.type() == KBVariant::Type::KBVarArray)
 	{
 		KBVariant::KBVarArray* val = v.asKBVarArray();
-		uint32 size = val->Num();
+		uint32 size = static_cast<uint32>(val->Num());
 
 		stream << size;
 
@@ -476,7 +476,7 @@ void DATATYPE_ARRAY::addToStream(Bundle& stream, KBVariant& v)
 	else
 	{
 		KBVariant::KBVarBytes val = v;
-		uint32 size = val.Num();
+		uint32 size = static_cast<uint32>(val.Num());
 
 		stream << size;
 

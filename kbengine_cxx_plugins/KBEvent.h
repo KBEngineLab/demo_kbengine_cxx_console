@@ -70,7 +70,7 @@ protected:
 
 // 注册事件
 #define KBENGINE_REGISTER_EVENT(EVENT_NAME, EVENT_FUNC) \
-	KBEvent::registerEvent(EVENT_NAME, #EVENT_FUNC, [this](const UKBEventData* pEventData) {	EVENT_FUNC(pEventData);	}, (void*)this);
+	KBEvent::registerEvent(EVENT_NAME, #EVENT_FUNC, [this](std::shared_ptr<UKBEventData> pEventData) {	EVENT_FUNC(pEventData);	}, (void*)this);
 
 // 注册事件，可重写事件函数
 #define KBENGINE_REGISTER_EVENT_OVERRIDE_FUNC(EVENT_NAME, FUNC_NAME, EVENT_FUNC) \

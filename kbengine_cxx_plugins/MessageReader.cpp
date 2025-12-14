@@ -1,5 +1,7 @@
 
 #include "MessageReader.h"
+
+#include "GameThreadDispatcher.h"
 #include "Messages.h"
 #include "KBDebug.h"
 #include "MemoryStream.h"
@@ -54,7 +56,15 @@ void MessageReader::process(const uint8* datas, MessageLengthEx offset, MessageL
 				else if (pMsg->msglen == 0)
 				{
 					// 如果是0个参数的消息，那么没有后续内容可读了，处理本条消息并且直接跳到下一条消息
-					pMsg->handleMessage(*pMemoryStream_);
+					// pMsg->handleMessage(*pMemoryStream_);
+					// dispatchMessageToGameThread(pMsg, nullptr, 0);
+					// const uint8* bodyData = pMemoryStream_->data();
+					// MessageLengthEx bodyLen = pMemoryStream_->length();
+					// // 投递到 GameThread
+					// dispatchMessageToGameThread(pMsg, bodyData, bodyLen);
+
+					// 对于0参数消息，直接传递空数据
+					dispatchMessageToGameThread(pMsg, nullptr, 0);
 
 					state_ = READ_STATE_MSGID;
 					expectSize_ = 2;
@@ -131,9 +141,9 @@ void MessageReader::process(const uint8* datas, MessageLengthEx offset, MessageL
 		{
 			if (length >= expectSize_)
 			{
-				pMemoryStream_->append(datas, totallen, expectSize_);
-				totallen += expectSize_;
-				length -= expectSize_;
+				// pMemoryStream_->append(datas, totallen, expectSize_);
+				// totallen += expectSize_;
+				// length -= expectSize_;
 
 				Message* pMsg = Messages::findClientMessage(msgid_);
 
@@ -143,7 +153,38 @@ void MessageReader::process(const uint8* datas, MessageLengthEx offset, MessageL
 					break;
 				}
 
-				pMsg->handleMessage(*pMemoryStream_);
+				// pMsg->handleMessage(*pMemoryStream_);
+
+				// //  在 clear 之前，拷贝 body
+				// const uint8* bodyData = pMemoryStream_->data();
+				// MessageLengthEx bodyLen = pMemoryStream_->length();
+				// // 投递到 GameThread
+				// dispatchMessageToGameThread(pMsg, bodyData, bodyLen);
+				// dispatchMessageToGameThread(pMsg, datas + totallen, expectSize_);
+
+				if (pMemoryStream_->length() == 0)
+				{
+					// ✅ 快路径：body 没拆包
+					dispatchMessageToGameThread(
+						pMsg,
+						datas + totallen,
+						expectSize_
+					);
+				}
+				else
+				{
+					// 慢路径：body 被拆包
+					pMemoryStream_->append(datas, totallen, expectSize_);
+					dispatchMessageToGameThread(
+						pMsg,
+						pMemoryStream_->data(),
+						pMemoryStream_->length()
+					);
+				}
+
+
+				totallen += expectSize_;
+				length -= expectSize_;
 
 				pMemoryStream_->clear(false);
 				state_ = READ_STATE_MSGID;
@@ -157,6 +198,27 @@ void MessageReader::process(const uint8* datas, MessageLengthEx offset, MessageL
 			}
 		}
 	}
+}
+
+
+void MessageReader::dispatchMessageToGameThread(
+	Message* pMsg,
+	const uint8* data,
+	MessageLengthEx len)
+{
+	// 拷贝一条完整消息
+	auto msgStream = std::make_shared<MemoryStream>();
+
+	if (len > 0)
+	{
+		msgStream->append(data, len);
+	}
+	GameThreadDispatcher::Instance().Post(
+		[pMsg, msgStream]()
+		{
+			pMsg->handleMessage(*msgStream);
+		}
+	);
 }
 
 }

@@ -30,7 +30,9 @@ public:
         if (it != creators_.end()) {
             return it->second();
         }
-        return nullptr;
+
+        ERROR_MSG("EntityFactory::create: unknown class name: %s" , name.c_str());
+        return std::make_unique<KBEngine::Entity>();
     }
 
 private:

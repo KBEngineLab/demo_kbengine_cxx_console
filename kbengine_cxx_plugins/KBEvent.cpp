@@ -63,12 +63,21 @@ bool KBEvent::deregister(void* objPtr, const KBString& eventName, const KBString
 	}
 
 	// 从后往前遍历，以避免中途删除的问题
-	for (int i = (*eo_array_find).Num() - 1; i >= 0; --i)
+	// for (int i = (*eo_array_find).Num() - 1; i >= 0; --i)
+	// {
+	// 	EventObj& item = (*eo_array_find)[i];
+	// 	if (objPtr == item.objPtr && (funcName.empty() || funcName == item.funcName))
+	// 	{
+	// 		(*eo_array_find).RemoveAt(i, 1);
+	// 	}
+	// }
+
+	for (size_t i = eo_array_find->Num(); i-- > 0; )
 	{
 		EventObj& item = (*eo_array_find)[i];
 		if (objPtr == item.objPtr && (funcName.empty() || funcName == item.funcName))
 		{
-			(*eo_array_find).RemoveAt(i, 1);
+			eo_array_find->RemoveAt(i, 1);
 		}
 	}
 

@@ -7,6 +7,8 @@
 namespace KBEngine
 {
 
+class Message;
+
 class MemoryStream;
 
 /*
@@ -38,12 +40,16 @@ public:
 public:
 	void process(const uint8* datas, MessageLengthEx offset, MessageLengthEx length);
 
+
 protected:
 	MessageID msgid_;
 	MessageLength msglen_;
 	MessageLengthEx expectSize_;
 	READ_STATE state_;
 	MemoryStream* pMemoryStream_;
+
+
+	void dispatchMessageToGameThread(Message *pMsg, const uint8 *data, MessageLengthEx len);
 
 };
 

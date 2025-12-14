@@ -124,6 +124,10 @@ public:
 	}
 
 	virtual void onPositionChanged(const KBVector3f& oldValue);
+	/**
+	 * 平滑位置变化回调
+	 */
+	virtual void onSmoothPositionChanged(const KBVector3f& oldValue);
 	virtual void onDirectionChanged(const KBVector3f& oldValue);
 
 	virtual EntityCall* getBaseEntityCall()

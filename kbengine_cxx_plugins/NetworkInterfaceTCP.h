@@ -26,10 +26,8 @@ public:
 	void close() override;
 	bool valid() override;
 	bool sendTo(MemoryStream* pMemoryStream) override;
-	
-// protected:
-// 	PacketSenderBase* createPacketSender() override;
-// 	PacketReceiverBase* createPacketReceiver() override;
+
+	virtual void process() override;
 
 private:
 	std::shared_ptr<hv::TcpClient> socket_;

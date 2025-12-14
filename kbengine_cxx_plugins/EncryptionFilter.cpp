@@ -84,7 +84,7 @@ bool BlowfishFilter::init()
 	}
 	else
 	{
-		ERROR_MSG("BlowfishFilter::init: invalid length %d", key_.length());
+		ERROR_MSG("BlowfishFilter::init: invalid length %zu", key_.length());
 		isGood_ = false;
 	}
 

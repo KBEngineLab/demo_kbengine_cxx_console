@@ -271,7 +271,7 @@ void Bundle::appendBlob(const KBArray<uint8>& datas)
 
 void Bundle::appendUTF8String(const KBString& str)
 {
-	uint32_t len = static_cast<uint32_t>(str.size()) + 4; // +4 保留原来的长度预留
+	uint32_t len = static_cast<uint32_t>(str.length()) + 4; // +4 保留原来的长度预留
 
 	checkStream(len);
 

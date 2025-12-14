@@ -7,6 +7,7 @@
 #include "EncryptionFilter.h"
 #include "EventLoop.h"
 #include "Channel.h"
+#include "EventLoopThread.h"
 
 /*
 	网络模块
@@ -50,13 +51,15 @@ public:
 	virtual void reset();
 	virtual void close();
 	virtual bool valid();
+	virtual void process();
 
 	virtual bool connectTo(const KBString& addr, uint16 port, InterfaceConnect* callback, int userdata);
 	virtual bool send(MemoryStream* pMemoryStream);
 	virtual bool sendTo(MemoryStream* pMemoryStream);
 
 	virtual void destroy() {
-		close();
+		// close();
+		reset();
 	}
 
 	// virtual FSocket* createSocket(const KBString& socketDescript = KBTEXT("default"));
@@ -86,6 +89,9 @@ protected:
 	bool isDestroyed_;
 
 	EncryptionFilter *pFilter_;
+
+
+	// std::shared_ptr<hv::EventLoopThread> Loop;
 
 
 	// std::shared_ptr<hv::SocketChannel> socket_;

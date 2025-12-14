@@ -1,5 +1,7 @@
 
 #include "NetworkInterfaceTCP.h"
+
+#include "GameThreadDispatcher.h"
 #include "MemoryStream.h"
 #include "KBEvent.h"
 #include "KBDebug.h"
@@ -11,17 +13,18 @@ namespace KBEngine
 
 NetworkInterfaceTCP::NetworkInterfaceTCP(): NetworkInterfaceBase()
 {
+	// DEBUG_MSG("NetworkInterfaceTCP::NetworkInterfaceTCP():");
 }
 
 NetworkInterfaceTCP::~NetworkInterfaceTCP()
 {
-	NetworkInterfaceTCP::close();
+	// DEBUG_MSG("NetworkInterfaceTCP::~NetworkInterfaceTCP():");
+	NetworkInterfaceTCP::reset();
 }
 
 bool NetworkInterfaceTCP::connectTo(const KBString &addr, uint16 port, InterfaceConnect *callback, int userdata) {
 	INFO_MSG("NetworkInterfaceTCP::connectTo(): will connect to %s:%d ...", addr.c_str(), port);
 	reset();
-
 
 	connectCB_ = callback;
 	connectIP_ = addr;
@@ -29,10 +32,17 @@ bool NetworkInterfaceTCP::connectTo(const KBString &addr, uint16 port, Interface
 	connectUserdata_ = userdata;
 	startTime_ = getTimeSeconds();
 
+
+	// Loop = std::make_shared<hv::EventLoopThread>();
+
+	// Loop->start();
 	// 如果 socket_ 没创建，就创建 TcpClient
 	if (!socket_) {
 		socket_ = std::make_shared<hv::TcpClient>();
 	}
+
+
+
 
 	// printf(TCHARToANSI(*addr).c_str());
 	int ret = socket_->createsocket(port, TCHARToANSI(*addr).c_str());
@@ -54,68 +64,123 @@ bool NetworkInterfaceTCP::connectTo(const KBString &addr, uint16 port, Interface
 		if (connectCB_) {
 			if (ch->isConnected()) {
 				INFO_MSG("NetworkInterfaceTCP::connectTo(): connect to  %s success!", ch->peeraddr().c_str());
+				auto connectCB = connectCB_;
+				GameThreadDispatcher::Instance().Post(
+				   [this, connectCB]() mutable
+				   {
+				   		connectCB->onConnectCallback(connectIP_, connectPort_, true, connectUserdata_);
+						// connectCB_ = nullptr;
+						connectCB = nullptr;
 
-				connectCB_->onConnectCallback(connectIP_, connectPort_, true, connectUserdata_);
+						auto pEventData = std::make_shared<UKBEventData_onConnectionState>();
+						pEventData->success = true;
+						pEventData->address = KBString::Printf(KBTEXT("%s:%d"), *connectIP_, connectPort_);
+						KBENGINE_EVENT_FIRE(KBEventTypes::onConnectionState, pEventData);
+
+				   }
+			    );
 				connectCB_ = nullptr;
-
-				auto pEventData = std::make_shared<UKBEventData_onConnectionState>();
-				pEventData->success = true;
-				pEventData->address = KBString::Printf(KBTEXT("%s:%d"), *connectIP_, connectPort_);
-				KBENGINE_EVENT_FIRE(KBEventTypes::onConnectionState, pEventData);
 
 			}else {
 				// 连接超时或者无法连接
 				ERROR_MSG("NetworkInterfaceTCP::connectTo(): connect to %s timeout!", ch->peeraddr().c_str());
-				connectCB_->onConnectCallback(connectIP_, connectPort_, false, connectUserdata_);
+				auto connectCB = connectCB_;
 				connectCB_ = nullptr;
+				GameThreadDispatcher::Instance().Post(
+				   [this,connectCB]() mutable
+				   {
+					   connectCB->onConnectCallback(connectIP_, connectPort_, false, connectUserdata_);
+					   connectCB = nullptr;
 
-				auto pEventData = std::make_shared<UKBEventData_onConnectionState>();
-				pEventData->success = false;
-				pEventData->address = KBString::Printf(KBTEXT("%s:%d"), *connectIP_, connectPort_);
-				KBENGINE_EVENT_FIRE(KBEventTypes::onConnectionState, pEventData);
+					   auto pEventData = std::make_shared<UKBEventData_onConnectionState>();
+					   pEventData->success = false;
+					   pEventData->address = KBString::Printf(KBTEXT("%s:%d"), *connectIP_, connectPort_);
+					   KBENGINE_EVENT_FIRE(KBEventTypes::onConnectionState, pEventData);
+				   }
+			   );
 			}
 
 		}
 
+
 	};
-
-
 
 
 	// 数据回调
 	socket_->onMessage = [this](const hv::SocketChannelPtr& ch, hv::Buffer* buf) {
-		// printf("< %.*s\n", (int)buf->size());
-		// 1. 将 hv::Buffer 填充到 pPacket_
-		const auto* data = reinterpret_cast<const uint8_t*>(buf->data());
+
+		const auto* data  = reinterpret_cast<const uint8_t*>(buf->data());
 		size_t len = buf->size();
 		pBuffer_->clear(true);
 		pBuffer_->append(data, len);
-		// pBuffer_->wpos(len);
 
 		if (pFilter_) {
 			pFilter_->recv(pMessageReader_,pBuffer_);
 		}else {
 			pMessageReader_->process(pBuffer_->data(), 0, len);
-			// pMessageReader_->process(reinterpret_cast<const uint8*>(buf->data()), 0, buf->size());
 		}
 
+
+		// const auto* begin  = reinterpret_cast<const uint8_t*>(buf->data());
+		// size_t len = buf->size();
+		// std::vector<uint8_t> data(begin , begin  + len);
+		// // 这里要改，应该操作完io后再投递进去
+		// GameThreadDispatcher::Instance().Post(
+		// 	[this, data = std::move(data), len]() mutable
+		// 	{
+		//
+		// 		MemoryStream pBuffer;
+		// 		pBuffer.clear(true);
+		// 		pBuffer.append(data.data(), data.size());
+		//
+		//
+		// 		if (pFilter_) {
+		// 			pFilter_->recv(pMessageReader_,&pBuffer);
+		// 		}else {
+		// 			pMessageReader_->process(pBuffer.data(), 0, len);
+		// 		}
+		// 	}
+		// );
+
+
+
 	};
-
-
-
+	// 新建一个事件循环对象
 	socket_->start();  // 启动 EventLoop
 
+
+
+	// socket_->startConnect();
 
 	return true;
 }
 
 void NetworkInterfaceTCP::reset() {
-	NetworkInterfaceBase::reset();
+
+	if (socket_)
+	{
+
+		socket_->stop();
+		socket_->closesocket();
+		// socket_->onMessage = nullptr;
+		// socket_->onConnection = nullptr;
+		INFO_MSG("NetworkInterfaceTCP::reset(): network reset!");
+		socket_ = nullptr;
+	}
+
+	KBE_SAFE_RELEASE(pFilter_);
+	connectCB_ = nullptr;
+	connectIP_ = KBTEXT("");
+	connectPort_ = 0;
+	connectUserdata_ = 0;
+	startTime_ = 0.0;
 }
 
 void NetworkInterfaceTCP::close() {
+
 	if (socket_)
 	{
+
 		socket_->stop();
 		socket_->closesocket();
 		// socket_->onMessage = nullptr;
@@ -125,16 +190,16 @@ void NetworkInterfaceTCP::close() {
 		socket_ = nullptr;
 	}
 
-
-	// KBE_SAFE_RELEASE(pPacketSender_);
-	// KBE_SAFE_RELEASE(pPacketReceiver_);
 	KBE_SAFE_RELEASE(pFilter_);
-
 	connectCB_ = nullptr;
 	connectIP_ = KBTEXT("");
 	connectPort_ = 0;
 	connectUserdata_ = 0;
 	startTime_ = 0.0;
+
+
+
+
 }
 
 bool NetworkInterfaceTCP::valid() {
@@ -161,14 +226,11 @@ bool NetworkInterfaceTCP::sendTo(MemoryStream *pMemoryStream) {
 	// return socket_->send(pMemoryStream->data(),pMemoryStream->length());
 }
 
-// PacketSenderBase* NetworkInterfaceTCP::createPacketSender()
-// {
-// 	return new PacketSenderTCP(this);
-// }
-//
-// PacketReceiverBase* NetworkInterfaceTCP::createPacketReceiver()
-// {
-// 	return new PacketReceiverTCP(this);
-// }
+void NetworkInterfaceTCP::process()
+{
+	// if (Loop) {
+	// 	hloop_process_events(Loop->loop(),0); // 手动驱动一次事件循环
+	// }
+}
 
 }

@@ -6,38 +6,28 @@
 #include <cfloat>
 #include <cmath>
 #include <string>
-#include "KBEBasicTypes.h"
-#include "KBVariant.h"
-// #include "KBVar.h"
 
 
-#pragma once
-
-// ---------------------------
-// Detect Unreal Engine
-// ---------------------------
-#if defined(UE_BUILD_DEBUG) || defined(UE_BUILD_DEVELOPMENT) || defined(UE_BUILD_SHIPPING)
-	#define KBE_USING_UE 1
+#if defined(__UNREAL__) || defined(UE_BUILD_DEBUG) || defined(UE_SERVER) || defined(UE_GAME) || defined(UE_CLIENT) || defined(UE_BUILD_DEVELOPMENT) || defined(UE_BUILD_SHIPPING)
+    #define KBE_PLATFORM_UE 1
+#elif defined(CC_TARGET_PLATFORM)
+    #define KBE_PLATFORM_COCOS 1
+#else
+    #define KBE_PLATFORM_CPP 1
 #endif
 
-// ---------------------------
-// Detect Cocos2d-x
-// ---------------------------
-#if defined(COCOS2D_VERSION)
-	#define KBE_USING_COCOS 1
-#endif
 
 // ---------------------------
 // UE Version
 // ---------------------------
-#if defined(KBE_USING_UE)
+#if defined(KBE_PLATFORM_UE)
 	#include "Misc/AssertionMacros.h"
 	#define KBE_ASSERT(expr) check(expr)
 
 // ---------------------------
 // Cocos2d-x Version
 // ---------------------------
-#elif defined(KBE_USING_COCOS)
+#elif defined(KBE_PLATFORM_COCOS)
 	#include "base/CCPlatformMacros.h" // cocos2d-x 宏
 	#define KBE_ASSERT(expr) CCASSERT(expr, "KBE_ASSERT failed")
 
@@ -58,6 +48,11 @@
 
 #endif
 
+
+
+
+#include "KBEBasicTypes.h"
+#include "KBVariant.h"
 
 typedef uint16 MessageID;
 typedef uint16 MessageLength;

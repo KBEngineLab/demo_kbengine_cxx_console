@@ -15,9 +15,19 @@
 #include <stdexcept>
 #include <unordered_map>
 
-#ifdef _WIN32
-#include <windows.h>
+
+#if defined(__UNREAL__) || defined(UE_BUILD_DEBUG) || defined(UE_SERVER) || defined(UE_GAME) || defined(UE_CLIENT) || defined(UE_BUILD_DEVELOPMENT) || defined(UE_BUILD_SHIPPING)
+    #define KBE_PLATFORM_UE 1
+#elif defined(CC_TARGET_PLATFORM)
+    #define KBE_PLATFORM_COCOS 1
+#else
+    #define KBE_PLATFORM_CPP 1
 #endif
+
+
+// #ifdef _WIN32
+// #include <windows.h>
+// #endif
 
 
 using KBCHAR = char;               // 全平台 char
@@ -35,6 +45,9 @@ struct KBString : public KBStringBase
 
     KBString(const std::string& s) : Base(s) {}
 
+
+    
+
     // 支持 wchar_t*（如果用户传进来了）——直接转 UTF-8
     KBString(const wchar_t* wstr)
     {
@@ -44,21 +57,80 @@ struct KBString : public KBStringBase
     }
 
     // wchar_t → UTF8 辅助函数（可选）
+    // static std::string WCharToUTF8(const wchar_t* wstr)
+    // {
+    //     if (!wstr) return "";
+
+    //     int size_needed = WideCharToMultiByte(CP_UTF8, 0, wstr, -1,
+    //                                           NULL, 0, NULL, NULL);
+
+    //     std::string result(size_needed, '\0');
+
+    //     WideCharToMultiByte(CP_UTF8, 0, wstr, -1,
+    //                         &result[0], size_needed, NULL, NULL);
+
+    //     // 去掉最后一个 '\0'
+    //     if (!result.empty() && result.back() == '\0')
+    //         result.pop_back();
+
+    //     return result;
+    // }
+
+    // static std::string WCharToUTF8(const wchar_t* wstr)
+    // {
+    //     if (!wstr) return "";
+
+    //     std::wstring ws(wstr);
+
+    //     std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
+    //     return conv.to_bytes(ws);
+    // }
+
+    // 返回 UTF-8 字节长度（不含长度前缀）
+    size_t UTF8ByteSize() const
+    {
+        return this->size(); // KBString 已经存储的是 UTF-8 bytes
+    }
+    
     static std::string WCharToUTF8(const wchar_t* wstr)
     {
         if (!wstr) return "";
 
-        int size_needed = WideCharToMultiByte(CP_UTF8, 0, wstr, -1,
-                                              NULL, 0, NULL, NULL);
+        std::string result;
 
-        std::string result(size_needed, '\0');
+        while (*wstr)
+        {
+            wchar_t wc = *wstr++;
 
-        WideCharToMultiByte(CP_UTF8, 0, wstr, -1,
-                            &result[0], size_needed, NULL, NULL);
-
-        // 去掉最后一个 '\0'
-        if (!result.empty() && result.back() == '\0')
-            result.pop_back();
+            if (wc <= 0x7F)
+            {
+                result.push_back(static_cast<char>(wc));
+            }
+            else if (wc <= 0x7FF)
+            {
+                result.push_back(static_cast<char>(0xC0 | ((wc >> 6) & 0x1F)));
+                result.push_back(static_cast<char>(0x80 | (wc & 0x3F)));
+            }
+            else if (wc <= 0xFFFF)
+            {
+                result.push_back(static_cast<char>(0xE0 | ((wc >> 12) & 0x0F)));
+                result.push_back(static_cast<char>(0x80 | ((wc >> 6) & 0x3F)));
+                result.push_back(static_cast<char>(0x80 | (wc & 0x3F)));
+            }
+    #if WCHAR_MAX > 0xFFFF
+            else if (wc <= 0x10FFFF)
+            {
+                result.push_back(static_cast<char>(0xF0 | ((wc >> 18) & 0x07)));
+                result.push_back(static_cast<char>(0x80 | ((wc >> 12) & 0x3F)));
+                result.push_back(static_cast<char>(0x80 | ((wc >> 6) & 0x3F)));
+                result.push_back(static_cast<char>(0x80 | (wc & 0x3F)));
+            }
+    #endif
+            else
+            {
+                throw std::runtime_error("Invalid wchar_t value");
+            }
+        }
 
         return result;
     }
@@ -71,7 +143,10 @@ struct KBString : public KBStringBase
     // ---- AppendInt ----
     void AppendInt(int value)
     {
-        this->append(std::to_string(value));
+        char buf[32];
+        snprintf(buf, sizeof(buf), "%d", value);
+        this->append(buf);
+        // this->append(std::to_string(value));
     }
 
     // Append const char*
@@ -138,6 +213,40 @@ struct KBString : public KBStringBase
     {
         return this->c_str();
     }
+
+    KBString& operator=(const char* str)
+    {
+        this->assign(str ? str : "");
+        return *this;
+    }
+
+    KBString& operator=(const wchar_t* wstr)
+    {
+        this->assign(WCharToUTF8(wstr));
+        return *this;
+    }
+
+    
+#if defined(KBE_PLATFORM_UE)
+    // 添加 FString 构造
+    KBString(const FString& fstr)
+    {
+        // FString::Utf8() 返回 UTF-8 const char*
+        this->assign(TCHAR_TO_UTF8(*fstr));
+    }
+
+    // 添加 operator= 支持 FString
+    KBString& operator=(const FString& fstr)
+    {
+        this->assign(TCHAR_TO_UTF8(*fstr));
+        return *this;
+    }
+
+    operator FString() const
+    {
+        return UTF8_TO_TCHAR(this->c_str());
+    }
+#endif
 };
 
 
@@ -420,6 +529,46 @@ public:
 
     KBArray() = default;
     KBArray(std::initializer_list<T> init) : mData(init) {}
+
+
+    // UE TArray 构造与赋值
+#if defined(KBE_PLATFORM_UE)
+    // ===========================
+    // TArray 构造与赋值
+    // ===========================
+    KBArray(const TArray<T>& arr)
+    {
+        mData.reserve(arr.Num());
+        for (auto& elem : arr)
+            mData.push_back(elem);
+    }
+
+    KBArray& operator=(const TArray<T>& arr)
+    {
+        mData.clear();
+        mData.reserve(arr.Num());
+        for (auto& elem : arr)
+            mData.push_back(elem);
+        return *this;
+    }
+
+    // 转换为 TArray
+    TArray<T> ToTArray() const
+    {
+        TArray<T> arr;
+        arr.Reserve(mData.size());
+        for (auto& elem : mData)
+            arr.Add(elem);
+        return arr;
+    }
+
+    // 可选隐式转换
+    operator TArray<T>() const
+    {
+        return ToTArray();
+    }
+#endif
+
 
     void Add(const T& value) { mData.push_back(value); }
     void Add(T&& value) { mData.push_back(std::move(value)); }

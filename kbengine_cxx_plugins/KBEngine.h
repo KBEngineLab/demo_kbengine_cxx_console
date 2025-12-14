@@ -3,6 +3,14 @@
 #pragma once
 
 #include "KBECommon.h"
+
+#if defined(_WIN32) && defined(KBE_PLATFORM_UE)
+#include "Windows/AllowWindowsPlatformTypes.h"
+#include <Windows.h>
+#include "Windows/HideWindowsPlatformTypes.h"
+#endif
+
+
 #include "ServerErrorDescrs.h"
 #include "Interfaces.h"
 #include "EventLoop.h"

@@ -140,7 +140,7 @@ public:
 	}
 
 	// array的大小
-	virtual uint32 size() const { return data_->Num(); }
+	virtual uint32 size() const { return static_cast<uint32>(data_->Num()); }
 
 	// array是否为空
 	virtual bool empty() const { return data_->Num() == 0; }
@@ -208,8 +208,8 @@ public:
 
 		s.rpos((int)rpos_);
 		s.wpos((int)wpos_);
-		rpos_ = rpos;
-		wpos_ = wpos;
+		rpos_ = static_cast<uint32>(rpos);
+		wpos_ = static_cast<uint32>(wpos);
 	}
 
 	uint8 operator[](uint32 pos)
@@ -280,28 +280,45 @@ public:
 	MemoryStream &operator<<(const KBString &value)
 	{
 		// 保存 vector 对象，保证序列化期间有效
-		const auto arr = value.GetCharArray();       // arr 的生命周期到函数结束
-		const KBCHAR* serializedChar = arr.data();
-		
-		if(!serializedChar)
+		// const auto arr = value.GetCharArray();       // arr 的生命周期到函数结束
+		// const KBCHAR* serializedChar = arr.data();
+		//
+		// if(!serializedChar)
+		// {
+		// 	append((uint8)0);
+		// 	return *this;
+		// }
+		//
+		// // uint32 size = KBStrlen(serializedChar);
+		//
+		// // 转 ANSI/UTF-8
+		// std::string ansiStr = TCHARToANSI(serializedChar);
+		// // append(reinterpret_cast<const uint8*>(ansiStr.data()), ansiStr.size());
+		// // // append(((uint8*)TCHAR_TO_ANSI(serializedChar)), size);
+		// // append((uint8)0);
+		//
+		// uint32 len = static_cast<uint32>(ansiStr.size());
+		// append(reinterpret_cast<const uint8*>(ansiStr.data()), len);
+		// append((uint8)0);
+		// return *this;
+
+		const char* s = value.c_str();
+		if (!s || s[0] == '\0')
 		{
 			append((uint8)0);
 			return *this;
 		}
 
-		uint32 size = KBStrlen(serializedChar);
-
-		// 转 ANSI/UTF-8
-		std::string ansiStr = TCHARToANSI(serializedChar);
-		append(reinterpret_cast<const uint8*>(ansiStr.data()), ansiStr.size());
-		// append(((uint8*)TCHAR_TO_ANSI(serializedChar)), size);
+		uint32 len = static_cast<uint32>(strlen(s));
+		append(reinterpret_cast<const uint8*>(s), len);
 		append((uint8)0);
 		return *this;
 	}
 
 	MemoryStream &operator<<(const char *str)
 	{
-		append((uint8 const *)str, str ? strlen(str) : 0);
+		uint32 len = str ? (uint32)strlen(str) : 0;
+		append((const uint8*)str, len);
 		append((uint8)0);
 		return *this;
 	}
@@ -740,7 +757,7 @@ public:
 		utf8Str = str;
 
 		// 2. 写长度
-		uint32_t len = static_cast<uint32_t>(utf8Str.size());
+		uint32_t len = static_cast<uint32_t>(utf8Str.length());
 		(*this) << len;
 
 		// 3. 写内容

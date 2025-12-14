@@ -27,6 +27,8 @@ public:
 	bool valid() override;
 	bool sendTo(MemoryStream* pMemoryStream) override;
 
+	virtual void process() override;
+
 	ikcpcb*	pKCP() {
 		return kcp_;
 	}

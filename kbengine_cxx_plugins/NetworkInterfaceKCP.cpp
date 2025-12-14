@@ -1,5 +1,7 @@
 
 #include "NetworkInterfaceKCP.h"
+
+#include "GameThreadDispatcher.h"
 #include "MemoryStream.h"
 #include "KBEvent.h"
 #include "KBDebug.h"
@@ -20,12 +22,15 @@ NetworkInterfaceKCP::NetworkInterfaceKCP():
 
 NetworkInterfaceKCP::~NetworkInterfaceKCP()
 {
-	NetworkInterfaceKCP::close();
+	// NetworkInterfaceKCP::close();
+	NetworkInterfaceKCP::reset();
 }
 
 bool NetworkInterfaceKCP::connectTo(const KBString &addr, uint16 port, InterfaceConnect *callback, int userdata) {
 	INFO_MSG("NetworkInterfaceKCP::connectTo(): will connect to %s:%d ...", *addr, port);
 	reset();
+
+	// Loop = std::make_shared<hv::EventLoop>();
 
 	connectCB_ = callback;
 	connectIP_ = addr;
@@ -80,13 +85,26 @@ bool NetworkInterfaceKCP::connectTo(const KBString &addr, uint16 port, Interface
 				initKCP();
 			}
 
-			connectCB_->onConnectCallback(connectIP_, connectPort_, success, connectUserdata_);
+
+			auto connectCB = connectCB_;
+			GameThreadDispatcher::Instance().Post(
+			   [this,connectCB,success]() mutable
+			   {
+					connectCB->onConnectCallback(connectIP_, connectPort_, success, connectUserdata_);
+					connectCB = nullptr;
+
+
+
+					auto pEventData = std::make_shared<UKBEventData_onConnectionState>();
+					pEventData->success = success;
+					pEventData->address = KBString::Printf(KBTEXT("%s:%d"), *connectIP_, connectPort_);
+					KBENGINE_EVENT_FIRE(KBEventTypes::onConnectionState, pEventData);
+			   }
+		   );
+
 			connectCB_ = nullptr;
 
-			auto pEventData = std::make_shared<UKBEventData_onConnectionState>();
-			pEventData->success = success;
-			pEventData->address = KBString::Printf(KBTEXT("%s:%d"), *connectIP_, connectPort_);
-			KBENGINE_EVENT_FIRE(KBEventTypes::onConnectionState, pEventData);
+
 		}else {
 			const char* data = (const char*)buf->data();
 			size_t len = buf->size();
@@ -121,15 +139,16 @@ bool NetworkInterfaceKCP::connectTo(const KBString &addr, uint16 port, Interface
 
 	socket_->start();  // 启动 EventLoop
 
+	// socket_->startRecv();
 	// socket_->loop()->setTimeout()
-	socket_->loop()->setInterval(10, [this](hv::TimerID timerID) {
-		if (!kcp_) return;
-		uint32_t now = gettimeofday_ms();
-		if (now >= nextKcpUpdate_) {
-			ikcp_update(kcp_, now);
-			nextKcpUpdate_ = ikcp_check(kcp_, now);
-		}
-	});
+	// socket_->loop()->setInterval(10, [this](hv::TimerID timerID) {
+	// 	if (!kcp_) return;
+	// 	uint32_t now = gettimeofday_ms();
+	// 	if (now >= nextKcpUpdate_) {
+	// 		ikcp_update(kcp_, now);
+	// 		nextKcpUpdate_ = ikcp_check(kcp_, now);
+	// 	}
+	// });
 	socket_->sendto(UDP_HELLO);
 
 
@@ -138,7 +157,25 @@ bool NetworkInterfaceKCP::connectTo(const KBString &addr, uint16 port, Interface
 
 void NetworkInterfaceKCP::reset()
 {
-	NetworkInterfaceBase::reset();
+	// NetworkInterfaceBase::reset();
+	finiKCP();
+	if (socket_)
+	{
+		socket_->stop();
+		socket_->closesocket();
+		INFO_MSG("NetworkInterfaceKCP::reset(): network reset!");
+		socket_ = nullptr;
+	}
+
+	socket_ = nullptr;
+
+	KBE_SAFE_RELEASE(pFilter_);
+
+	connectCB_ = nullptr;
+	connectIP_ = KBTEXT("");
+	connectPort_ = 0;
+	connectUserdata_ = 0;
+	startTime_ = 0.0;
 }
 
 void NetworkInterfaceKCP::close()
@@ -162,6 +199,7 @@ void NetworkInterfaceKCP::close()
 	connectPort_ = 0;
 	connectUserdata_ = 0;
 	startTime_ = 0.0;
+
 }
 
 bool NetworkInterfaceKCP::valid()
@@ -181,6 +219,16 @@ bool NetworkInterfaceKCP::sendTo(MemoryStream *pMemoryStream) {
 	ikcp_send(kcp_, (const char*)pMemoryStream->data(), pMemoryStream->length());
 	return true;
 
+}
+
+void NetworkInterfaceKCP::process()
+{
+	if (!kcp_) return;
+	uint32_t now = gettimeofday_ms();
+	if (now >= nextKcpUpdate_) {
+		ikcp_update(kcp_, now);
+		nextKcpUpdate_ = ikcp_check(kcp_, now);
+	}
 }
 
 bool NetworkInterfaceKCP::initKCP() {
