@@ -48,7 +48,7 @@ void TestNoBase::helloCB(int32 arg1)
 namespace {
 	const bool registered = []() {
 		EntityComponentFactory::instance().registerType("TestNoBase", []() {
-			return std::make_unique<KBEngine::TestNoBase>();
+			return new KBEngine::TestNoBase();
 		});
 		return true;
 	}();

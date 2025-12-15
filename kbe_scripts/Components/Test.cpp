@@ -1,6 +1,5 @@
 #include "Test.h"
 #include "../Avatar.h"
-#include "../LogicEvents.h"
 #include "../../kbengine_cxx_plugins/EntityComponentFactory.h"
 
 namespace KBEngine
@@ -46,7 +45,7 @@ void Test::helloCB(int32 arg1)
 namespace {
 	const bool registered = []() {
 		EntityComponentFactory::instance().registerType("Test", []() {
-			return std::make_unique<KBEngine::Test>();
+			return new KBEngine::Test();
 		});
 		return true;
 	}();

@@ -1,6 +1,5 @@
 #include "NPC.h"
 #include "../kbengine_cxx_plugins/Entity.h"
-#include "LogicEvents.h"
 
 #include "../kbengine_cxx_plugins/EntityFactory.h"
 
@@ -29,7 +28,7 @@ void NPC::__init__()
 namespace {
 	const bool registered = []() {
 		EntityFactory::instance().registerType("NPC", []() {
-			return std::make_unique<KBEngine::NPC>();
+			return new KBEngine::NPC();
 		});
 		return true;
 	}();

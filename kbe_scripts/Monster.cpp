@@ -31,7 +31,7 @@ void Monster::recvDamage(int32 arg1, int32 arg2, int32 arg3, int32 arg4) {
 namespace {
 	const bool registered = []() {
 		EntityFactory::instance().registerType("Monster", []() {
-			return std::make_unique<KBEngine::Monster>();
+			return new  KBEngine::Monster();
 		});
 		return true;
 	}();

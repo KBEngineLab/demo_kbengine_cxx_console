@@ -177,7 +177,7 @@ void Account::onRemoveAvatar(uint64 dbid)
 namespace {
 	const bool registered = []() {
 		EntityFactory::instance().registerType("Account", []() {
-			return std::make_unique<KBEngine::Account>();
+			return new KBEngine::Account();
 		});
 		return true;
 	}();

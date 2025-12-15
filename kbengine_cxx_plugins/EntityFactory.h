@@ -11,10 +11,9 @@
 #include <utility>
 
 #include "Entity.h"
-
 class EntityFactory {
 public:
-    using Creator = std::function<std::unique_ptr<KBEngine::Entity>()>;
+    using Creator = std::function<KBEngine::Entity*()>;
 
     static EntityFactory& instance() {
         static EntityFactory inst;
@@ -25,14 +24,14 @@ public:
         creators_[name] = std::move(creator);
     }
 
-    std::unique_ptr<KBEngine::Entity> create(const std::string& name) {
+    KBEngine::Entity* create(const std::string& name) {
         auto it = creators_.find(name);
         if (it != creators_.end()) {
             return it->second();
         }
 
-        ERROR_MSG("EntityFactory::create: unknown class name: %s" , name.c_str());
-        return std::make_unique<KBEngine::Entity>();
+        ERROR_MSG("EntityFactory::create: unknown class name: %s", name.c_str());
+        return new KBEngine::Entity();
     }
 
 private:

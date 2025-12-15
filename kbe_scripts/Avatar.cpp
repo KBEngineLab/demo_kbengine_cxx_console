@@ -213,7 +213,7 @@ void Avatar::onUtypeChanged(uint32 oldValue)
 namespace {
 	const bool registered = []() {
 		EntityFactory::instance().registerType("Avatar", []() {
-			return std::make_unique<KBEngine::Avatar>();
+			return new KBEngine::Avatar();
 		});
 		return true;
 	}();

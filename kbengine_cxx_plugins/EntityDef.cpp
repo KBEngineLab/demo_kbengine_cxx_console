@@ -88,7 +88,7 @@ void EntityDef::initDataTypes()
 
 Entity* EntityDef::createEntity(int utype)
 {
-	std::unique_ptr<KBEngine::Entity> pEntity = NULL;
+	Entity* pEntity = NULL;
 
 	switch(utype)
 	{
@@ -112,7 +112,7 @@ Entity* EntityDef::createEntity(int utype)
 			break;
 	};
 
-	return pEntity.release();
+	return pEntity;
 }
 
 void EntityDef::initScriptModules()

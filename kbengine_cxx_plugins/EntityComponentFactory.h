@@ -14,7 +14,7 @@
 
 class EntityComponentFactory {
 public:
-    using Creator = std::function<std::unique_ptr<KBEngine::EntityComponent>()>;
+    using Creator = std::function<KBEngine::EntityComponent*()>;
 
     static EntityComponentFactory& instance() {
         static EntityComponentFactory inst;
@@ -25,13 +25,13 @@ public:
         creators_[name] = std::move(creator);
     }
 
-    std::unique_ptr<KBEngine::EntityComponent> create(const std::string& name) {
+    KBEngine::EntityComponent* create(const std::string& name) {
         auto it = creators_.find(name);
         if (it != creators_.end()) {
             return it->second();
         }
         ERROR_MSG("EntityComponentFactory::create: unknown class name: %s" , name.c_str());
-        return std::make_unique<KBEngine::EntityComponent>();
+        return new KBEngine::EntityComponent();
     }
 
 private:

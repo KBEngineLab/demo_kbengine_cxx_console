@@ -29,7 +29,7 @@ void Gate::__init__()
 namespace {
 	const bool registered = []() {
 		EntityFactory::instance().registerType("Gate", []() {
-			return std::make_unique<KBEngine::Gate>();
+			return new KBEngine::Gate();
 		});
 		return true;
 	}();
