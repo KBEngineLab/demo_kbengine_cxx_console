@@ -961,7 +961,7 @@ AvatarBase::AvatarBase():
 	MP_Max((int32)safe_atoi64(KBTEXT("0"))),
 	component1(static_cast<TestBase*>(EntityComponentFactory::instance().create("Test"))),
 	component2(static_cast<TestBase*>(EntityComponentFactory::instance().create("Test"))),
-	component3(dynamic_cast<TestNoBaseBase*>(EntityComponentFactory::instance().create("TestNoBase"))),
+	component3(static_cast<TestNoBaseBase*>(EntityComponentFactory::instance().create("TestNoBase"))),
 	forbids((int32)safe_atoi64(KBTEXT("0"))),
 	level((uint16)safe_atoi64(KBTEXT("0"))),
 	modelID((uint32)safe_atoi64(KBTEXT("0"))),

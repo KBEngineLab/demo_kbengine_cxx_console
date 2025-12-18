@@ -78,6 +78,11 @@ bool NetworkInterfaceBase::send(MemoryStream* pMemoryStream)
 	{
 		return false;
 	}
+
+	if (pFilter_) {
+		return pFilter_->send(this,pMemoryStream);
+	}
+
 	return sendTo(pMemoryStream);
 }
 

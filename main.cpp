@@ -110,7 +110,7 @@ int main(int argc, char* argv[]) {
     bool isOnInitCallPropertysSetMethods = true;
     bool forceDisableUDP = true;
     EKCLIENT_TYPE clientType = EKCLIENT_TYPE::CLIENT_TYPE_WIN;
-    NETWORK_ENCRYPT_TYPE networkEncryptType = NETWORK_ENCRYPT_TYPE::ENCRYPT_TYPE_NONE;
+    NETWORK_ENCRYPT_TYPE networkEncryptType = NETWORK_ENCRYPT_TYPE::ENCRYPT_TYPE_BLOWFISH;
     int serverHeartbeatTick = 10;
     int TCP_SEND_BUFFER_MAX = TCP_PACKET_MAX;
     int TCP_RECV_BUFFER_MAX = TCP_PACKET_MAX;

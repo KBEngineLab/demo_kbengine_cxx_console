@@ -1,104 +1,92 @@
 #pragma once
-#include "KBECommon.h"
-#include "./blowfish/Blowfish.h"
 
-#if PLATFORM_WINDOWS
-#include "Windows/WindowsHWrapper.h"
-#include "Windows/AllowWindowsPlatformTypes.h"
-#endif
+#include <string>
+#include <vector>
+#include <cstdint>
+#include <memory>
+#include "MemoryStream.h"
 
-// #define UI UI_ST
-// #include "openssl/rand.h"
-// #include "openssl/blowfish.h"
-// #undef UI
+class Blowfish;
 
-#if PLATFORM_WINDOWS
-#include "Windows/HideWindowsPlatformTypes.h"
-#endif
+namespace KBEngine {
+    class NetworkInterfaceBase;
 
-namespace KBEngine
-{
-	class NetworkInterfaceBase;
+    class MessageReader;
 
-	class MemoryStream;
-class PacketSenderBase;
-class MessageReader;
+    class EncryptionFilter {
+    public:
+        virtual ~EncryptionFilter() {}
+        virtual bool send(NetworkInterfaceBase* pPacketSender, MemoryStream* pPacket) = 0;
+        virtual bool recv(MessageReader* pMessageReader, MemoryStream* pPacket) = 0;
+    };
 
-class EncryptionFilter
-{
-public:
+    class BlowfishFilter : public EncryptionFilter {
+    public:
+        // 构造函数：生成随机密钥
+        BlowfishFilter(int keySize = 20);
 
-	EncryptionFilter() {}
-	virtual ~EncryptionFilter();
-	virtual void encrypt(MemoryStream *pMemoryStream) = 0;
-	virtual void encrypt(uint8 *buf, MessageLengthEx len) = 0;
-	virtual void encrypt(uint8 *buf, MessageLengthEx offset, MessageLengthEx len) = 0;
+        // 构造函数：使用指定密钥
+        explicit BlowfishFilter(const std::string& key);
 
-	virtual void decrypt(MemoryStream *pMemoryStream) = 0;
-	virtual void decrypt(uint8 *buf, MessageLengthEx len) = 0;
-	virtual void decrypt(uint8 *buf, MessageLengthEx offset, MessageLengthEx len) = 0;
+        ~BlowfishFilter() override;
 
-	virtual bool send(NetworkInterfaceBase* pPacketSender, MemoryStream *pPacket) = 0;
-	virtual bool recv(MessageReader* pMessageReader, MemoryStream *pPacket) = 0;
-};
+        // 初始化
+        bool init();
 
+        // 加密数据
+        void encrypt(MemoryStream* pMemoryStream);
+        void encrypt(uint8 *buf, uint32 len);
+        void encrypt(uint8 *buf, uint32 offset, uint32 len);
 
-class BlowfishFilter : public EncryptionFilter
-{
-public:
-	// 每块大小
-	static const uint32 BLOCK_SIZE = 64 / 8;
-	static const uint32 MIN_PACKET_SIZE = (sizeof(MessageLength) + 1 + BLOCK_SIZE);
+        // 解密数据
+        void decrypt(MemoryStream* pMemoryStream);
+        void decrypt(uint8 *buf, uint32 len);
+        void decrypt(uint8 *buf, uint32 offset, uint32 len);
 
+        // 发送/接收接口
+        bool send(NetworkInterfaceBase* pPacketSender, MemoryStream* pPacket) override;
+        bool recv(MessageReader* pMessageReader, MemoryStream* pPacket) override;
 
-	// key的最小和最大大小
-	static const int MIN_KEY_SIZE = 32 / 8;
-	static const int MAX_KEY_SIZE = 448 / 8;
+        // 获取密钥
+        const std::string& getKey() const { return key_; }
 
-	// 默认key的大小
-	static const int DEFAULT_KEY_SIZE = 128 / 8;
+        KBArray<uint8> key()
+        {
+            KBArray<uint8> keyArray;
+            keyArray.SetNum(key_.size());
+            memcpy(keyArray.GetData(), key_.c_str(), key_.size());
 
-	BlowfishFilter(const KBString & key);
-	BlowfishFilter(int keySize = DEFAULT_KEY_SIZE);
+            return keyArray;
+        }
 
-	virtual ~BlowfishFilter();
+    private:
+        static const int MIN_KEY_SIZE = 4;
+        static const int MAX_KEY_SIZE = 56;
+        static const int BLOCK_SIZE = 8;          // Blowfish块大小
+        static const int MIN_PACKET_SIZE = 3;     // 最小包大小：uint16 + uint8
 
-	virtual void encrypt(MemoryStream *pMemoryStream);
-	virtual void encrypt(uint8 *buf, MessageLengthEx len);
-	virtual void encrypt(uint8 *buf, MessageLengthEx offset, MessageLengthEx len);
+        bool isGood_;
+        MemoryStream* pPacket_;
+        MemoryStream* pEncryptStream_;
+        uint16 packetLen_;
+        uint8 padSize_;
+        std::string key_;
+        int keySize_;
+        Blowfish* pBlowFish_;
 
-	virtual void decrypt(MemoryStream *pMemoryStream);
-	virtual void decrypt(uint8 *buf, MessageLengthEx len);
-	virtual void decrypt(uint8 *buf, MessageLengthEx offset, MessageLengthEx len);
+        // 辅助函数
+        Blowfish* pBlowFish() { return pBlowFish_; }
+        const Blowfish* pBlowFish() const { return pBlowFish_; }
 
-	virtual bool send(NetworkInterfaceBase *pPacketSender, MemoryStream *pPacket);
-	virtual bool recv(MessageReader *pMessageReader, MemoryStream *pPacket);
+        // 生成随机密钥
+        void generateRandomKey(int keySize);
 
+        // 大小端转换辅助函数
+        uint64_t swapUint64(uint64_t value) const;
 
-	Blowfish * pBlowFishKey() { return (Blowfish*)pBlowFishKey_; }
+        // 执行Blowfish加密（确保与OpenSSL一致）
+        void blowfishEncrypt(uint8_t* dst, const uint8_t* src) const;
+        void blowfishDecrypt(uint8_t* dst, const uint8_t* src) const;
+    };
 
-	KBArray<uint8> key()
-	{
-		KBArray<uint8> keyArray;
-		keyArray.SetNum(key_.length());
-		memcpy(keyArray.GetData(), TCHARToANSI(key_.c_str()).data(), key_.length());
-
-		return keyArray;
-	}
-
-private:
-	bool init();
-
-private:
-	bool			isGood_;
-	MemoryStream*	pPacket_;
-	MemoryStream*	pEncryptStream_;
-	MessageLength	packetLen_;
-	uint8			padSize_;
-
-	KBString key_;
-	int keySize_;
-	Blowfish * pBlowFishKey_;
-};
-
-}
+} // namespace KBEngine

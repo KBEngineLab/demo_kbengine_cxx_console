@@ -141,14 +141,14 @@ bool NetworkInterfaceKCP::connectTo(const KBString &addr, uint16 port, Interface
 
 	// socket_->startRecv();
 	// socket_->loop()->setTimeout()
-	// socket_->loop()->setInterval(10, [this](hv::TimerID timerID) {
-	// 	if (!kcp_) return;
-	// 	uint32_t now = gettimeofday_ms();
-	// 	if (now >= nextKcpUpdate_) {
-	// 		ikcp_update(kcp_, now);
-	// 		nextKcpUpdate_ = ikcp_check(kcp_, now);
-	// 	}
-	// });
+	socket_->loop()->setInterval(10, [this](hv::TimerID timerID) {
+		if (!kcp_) return;
+		uint32_t now = gettimeofday_ms();
+		if (now >= nextKcpUpdate_) {
+			ikcp_update(kcp_, now);
+			nextKcpUpdate_ = ikcp_check(kcp_, now);
+		}
+	});
 	socket_->sendto(UDP_HELLO);
 
 
@@ -193,12 +193,10 @@ void NetworkInterfaceKCP::close()
 
 	socket_ = nullptr;
 
-
-
 	KBE_SAFE_RELEASE(pMessageReader_);
 	KBE_SAFE_RELEASE(pBuffer_);
 	KBE_SAFE_RELEASE(pFilter_);
-
+	
 	connectCB_ = nullptr;
 	connectIP_ = KBTEXT("");
 	connectPort_ = 0;

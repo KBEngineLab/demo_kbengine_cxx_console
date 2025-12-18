@@ -34,6 +34,10 @@ public:
         return new KBEngine::EntityComponent();
     }
 
+    void reset() {
+        creators_.clear();
+    }
+
 private:
     std::unordered_map<std::string, Creator> creators_;
 };

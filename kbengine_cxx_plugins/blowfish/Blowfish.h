@@ -1,36 +1,23 @@
 #pragma once
-#include <cstdint>
-#include <cstddef>
-#include <array>
-#include <vector>
-#include <string>
+
+#ifndef __blowfish__
+#define __blowfish__
+
+#include <stdint.h>
 
 class Blowfish {
 public:
-    // P-array: 18 32-bit words
-    // S-boxes: 4 x 256 32-bit words
-    struct Key {
-        std::array<uint32_t, 18> P;
-        std::array<std::array<uint32_t, 256>, 4> S;
-    };
-
-    Blowfish();
-    // set key from raw bytes
-    void setKey(const uint8_t* key, size_t keyLen);
-    void setKeyFromString(const std::string& key); // convenience
-
-    // Encrypt/decrypt a single 64-bit block (in-place)
-    // Input as two 32-bit halves (left, right)
-    void encryptBlock(uint32_t& left, uint32_t& right) const;
-    void decryptBlock(uint32_t& left, uint32_t& right) const;
-
-    // helpers to use 64-bit buffer
-    static uint32_t read_u32_be(const uint8_t* p);
-    static void write_u32_be(uint8_t* p, uint32_t v);
-
+    void SetKey(const unsigned char* key, int byte_length);
+    void Encrypt(unsigned char* dst, const unsigned char* src, int byte_length) const;
+    void Decrypt(unsigned char* dst, const unsigned char* src, int byte_length) const;
+    void EncryptBlock(uint32_t *left, uint32_t *right) const;
+    void DecryptBlock(uint32_t *left, uint32_t *right) const;
 private:
-    Key key_;
-    static const Key& initialKeyConstants();
-    uint32_t F(uint32_t x) const;
-    void keySchedule(const uint8_t* key, size_t keyLen);
+    uint32_t Feistel(uint32_t value) const;
+    
+private:
+    uint32_t pary_[18];
+    uint32_t sbox_[4][256];
 };
+
+#endif /* defined(__blowfish__) */

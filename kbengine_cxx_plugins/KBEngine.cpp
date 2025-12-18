@@ -20,6 +20,7 @@
 #include "KBDebug.h"
 #include "KBEvent.h"
 #include "EncryptionFilter.h"
+#include "GameThreadDispatcher.h"
 
 namespace KBEngine
 {
@@ -217,6 +218,8 @@ void KBEngineApp::destroy()
 	resetMessages();
 
 	KBE_SAFE_RELEASE(pArgs_);
+	
+	if (pNetworkInterface_) pNetworkInterface_->destroy();
 	// KBE_SAFE_RELEASE(pNetworkInterface_);
 	pNetworkInterface_ = nullptr;
 	KBE_SAFE_RELEASE(pFilter_);
@@ -225,7 +228,7 @@ void KBEngineApp::destroy()
 
 void KBEngineApp::resetMessages()
 {
-	serverErrs_.Clear();
+	// serverErrs_.Clear();
 
 	Messages::clear();
 	EntityDef::clear();
@@ -381,6 +384,8 @@ void KBEngineApp::process()
 	// 处理网络
 	// if (pNetworkInterface_)
 	// 	pNetworkInterface_->process();
+
+	GameThreadDispatcher::Instance().Pump();
 
 	KBEvent::processOutEvents();
 	// 处理外层抛入的事件

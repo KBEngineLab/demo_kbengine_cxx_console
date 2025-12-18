@@ -233,14 +233,7 @@ inline int64 safe_stoll(const KBCHAR* s)
 	if (s == nullptr || *s == '\0')
 		return 0;
 
-	try
-	{
-		return std::stoll(s);   // 直接解析 UTF-8 char*
-	}
-	catch (...)
-	{
-		return 0;
-	}
+	return std::stoll(s);   // 直接解析 UTF-8 char*
 }
 
 

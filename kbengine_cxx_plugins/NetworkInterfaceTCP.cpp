@@ -109,7 +109,6 @@ bool NetworkInterfaceTCP::connectTo(const KBString &addr, uint16 port, Interface
 	// 数据回调
 	socket_->onMessage = [this](const hv::SocketChannelPtr& ch, hv::Buffer* buf) {
 
-		DEBUG_MSG("NetworkInterfaceTCP::connectTo(): recv data from %s:%d", ch->peeraddr().c_str());
 		const auto* data  = reinterpret_cast<const uint8_t*>(buf->data());
 		size_t len = buf->size();
 		pBuffer_->clear(true);
@@ -169,8 +168,6 @@ void NetworkInterfaceTCP::reset() {
 		socket_ = nullptr;
 	}
 
-	// KBE_SAFE_RELEASE(pMessageReader_);
-	// KBE_SAFE_RELEASE(pFilter_);
 	connectCB_ = nullptr;
 	connectIP_ = KBTEXT("");
 	connectPort_ = 0;
@@ -191,7 +188,7 @@ void NetworkInterfaceTCP::close() {
 		KBENGINE_EVENT_FIRE(KBEventTypes::onDisconnected, std::make_shared<UKBEventData_onDisconnected>());
 		socket_ = nullptr;
 	}
-
+	
 	KBE_SAFE_RELEASE(pMessageReader_);
 	KBE_SAFE_RELEASE(pBuffer_);
 	KBE_SAFE_RELEASE(pFilter_);

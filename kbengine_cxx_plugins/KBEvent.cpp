@@ -98,6 +98,11 @@ bool KBEvent::deregister(void* objPtr)
 
 void KBEvent::fire(const KBString& eventName, std::shared_ptr<UKBEventData> pEventData)
 {
+	if (!pEventData)
+	{
+		pEventData = std::make_shared<UKBEventData>();
+	}
+
 	KBArray<EventObj>* eo_array_find = events_.Find(eventName);
 	if (!eo_array_find || (*eo_array_find).Num() == 0)
 	{
