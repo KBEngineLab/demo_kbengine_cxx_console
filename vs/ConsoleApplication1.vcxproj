@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{7d347ed8-3148-4e5e-885a-f875919180a8}</ProjectGuid>
+    <RootNamespace>ConsoleApplication1</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalOptions>/source-charset:utf-8 %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>Ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalOptions>/source-charset:utf-8 %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>Ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="ConsoleApplication1.cpp" />
+    <ClCompile Include="KBEApp.cpp" />
+    <ClCompile Include="kbe_cxx_plugins\AccountBase.cpp" />
+    <ClCompile Include="kbe_cxx_plugins\AvatarBase.cpp" />
+    <ClCompile Include="kbe_cxx_plugins\blowfish\Blowfish.cpp" />
+    <ClCompile Include="kbe_cxx_plugins\Bundle.cpp" />
+    <ClCompile Include="kbe_cxx_plugins\CustomDataTypes.cpp" />
+    <ClCompile Include="kbe_cxx_plugins\DataTypes.cpp" />
+    <ClCompile Include="kbe_cxx_plugins\EncryptionFilter.cpp" />
+    <ClCompile Include="kbe_cxx_plugins\Entity.cpp" />
+    <ClCompile Include="kbe_cxx_plugins\EntityCall.cpp" />
+    <ClCompile Include="kbe_cxx_plugins\EntityCallAccountBase.cpp" />
+    <ClCompile Include="kbe_cxx_plugins\EntityCallAvatarBase.cpp" />
+    <ClCompile Include="kbe_cxx_plugins\EntityCallGateBase.cpp" />
+    <ClCompile Include="kbe_cxx_plugins\EntityCallMonsterBase.cpp" />
+    <ClCompile Include="kbe_cxx_plugins\EntityCallNPCBase.cpp" />
+    <ClCompile Include="kbe_cxx_plugins\EntityCallSpaceBase.cpp" />
+    <ClCompile Include="kbe_cxx_plugins\EntityCallSpaceDuplicateBase.cpp" />
+    <ClCompile Include="kbe_cxx_plugins\EntityCallSpacesBase.cpp" />
+    <ClCompile Include="kbe_cxx_plugins\EntityCallSpawnPointBase.cpp" />
+    <ClCompile Include="kbe_cxx_plugins\EntityCallTestBase.cpp" />
+    <ClCompile Include="kbe_cxx_plugins\EntityCallTestNoBaseBase.cpp" />
+    <ClCompile Include="kbe_cxx_plugins\EntityComponent.cpp" />
+    <ClCompile Include="kbe_cxx_plugins\EntityDef.cpp" />
+    <ClCompile Include="kbe_cxx_plugins\GateBase.cpp" />
+    <ClCompile Include="kbe_cxx_plugins\ikcp.c" />
+    <ClCompile Include="kbe_cxx_plugins\Interfaces.cpp" />
+    <ClCompile Include="kbe_cxx_plugins\KBDebug.cpp" />
+    <ClCompile Include="kbe_cxx_plugins\KBECommon.cpp" />
+    <ClCompile Include="kbe_cxx_plugins\KBEMain.cpp" />
+    <ClCompile Include="kbe_cxx_plugins\KBENativeSocket.cpp" />
+    <ClCompile Include="kbe_cxx_plugins\KBEngine.cpp" />
+    <ClCompile Include="kbe_cxx_plugins\KBEngineArgs.cpp" />
+    <ClCompile Include="kbe_cxx_plugins\KBEvent.cpp" />
+    <ClCompile Include="kbe_cxx_plugins\KBEventTypes.cpp" />
+    <ClCompile Include="kbe_cxx_plugins\MemoryStream.cpp" />
+    <ClCompile Include="kbe_cxx_plugins\MessageReader.cpp" />
+    <ClCompile Include="kbe_cxx_plugins\Messages.cpp" />
+    <ClCompile Include="kbe_cxx_plugins\Method.cpp" />
+    <ClCompile Include="kbe_cxx_plugins\MonsterBase.cpp" />
+    <ClCompile Include="kbe_cxx_plugins\NetworkInterfaceBase.cpp" />
+    <ClCompile Include="kbe_cxx_plugins\NetworkInterfaceKCP.cpp" />
+    <ClCompile Include="kbe_cxx_plugins\NetworkInterfaceTCP.cpp" />
+    <ClCompile Include="kbe_cxx_plugins\NPCBase.cpp" />
+    <ClCompile Include="kbe_cxx_plugins\Property.cpp" />
+    <ClCompile Include="kbe_cxx_plugins\ScriptModule.cpp" />
+    <ClCompile Include="kbe_cxx_plugins\SpaceBase.cpp" />
+    <ClCompile Include="kbe_cxx_plugins\SpaceDuplicateBase.cpp" />
+    <ClCompile Include="kbe_cxx_plugins\SpacesBase.cpp" />
+    <ClCompile Include="kbe_cxx_plugins\SpawnPointBase.cpp" />
+    <ClCompile Include="kbe_cxx_plugins\TestBase.cpp" />
+    <ClCompile Include="kbe_cxx_plugins\TestNoBaseBase.cpp" />
+    <ClCompile Include="kbe_cxx_plugins\UKBEMain.cpp" />
+    <ClCompile Include="kbe_scripts\Account.cpp" />
+    <ClCompile Include="kbe_scripts\Avatar.cpp" />
+    <ClCompile Include="kbe_scripts\Components\Test.cpp" />
+    <ClCompile Include="kbe_scripts\Components\TestNoBase.cpp" />
+    <ClCompile Include="kbe_scripts\Gate.cpp" />
+    <ClCompile Include="kbe_scripts\LogicEvents.cpp" />
+    <ClCompile Include="kbe_scripts\Monster.cpp" />
+    <ClCompile Include="kbe_scripts\NPC.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="KBEApp.h" />
+    <ClInclude Include="kbe_cxx_plugins\AccountBase.h" />
+    <ClInclude Include="kbe_cxx_plugins\AvatarBase.h" />
+    <ClInclude Include="kbe_cxx_plugins\blowfish\Blowfish.h" />
+    <ClInclude Include="kbe_cxx_plugins\Bundle.h" />
+    <ClInclude Include="kbe_cxx_plugins\CustomDataTypes.h" />
+    <ClInclude Include="kbe_cxx_plugins\DataTypes.h" />
+    <ClInclude Include="kbe_cxx_plugins\EncryptionFilter.h" />
+    <ClInclude Include="kbe_cxx_plugins\Entity.h" />
+    <ClInclude Include="kbe_cxx_plugins\EntityCall.h" />
+    <ClInclude Include="kbe_cxx_plugins\EntityCallAccountBase.h" />
+    <ClInclude Include="kbe_cxx_plugins\EntityCallAvatarBase.h" />
+    <ClInclude Include="kbe_cxx_plugins\EntityCallGateBase.h" />
+    <ClInclude Include="kbe_cxx_plugins\EntityCallMonsterBase.h" />
+    <ClInclude Include="kbe_cxx_plugins\EntityCallNPCBase.h" />
+    <ClInclude Include="kbe_cxx_plugins\EntityCallSpaceBase.h" />
+    <ClInclude Include="kbe_cxx_plugins\EntityCallSpaceDuplicateBase.h" />
+    <ClInclude Include="kbe_cxx_plugins\EntityCallSpacesBase.h" />
+    <ClInclude Include="kbe_cxx_plugins\EntityCallSpawnPointBase.h" />
+    <ClInclude Include="kbe_cxx_plugins\EntityCallTestBase.h" />
+    <ClInclude Include="kbe_cxx_plugins\EntityCallTestNoBaseBase.h" />
+    <ClInclude Include="kbe_cxx_plugins\EntityComponent.h" />
+    <ClInclude Include="kbe_cxx_plugins\EntityComponentFactory.h" />
+    <ClInclude Include="kbe_cxx_plugins\EntityDef.h" />
+    <ClInclude Include="kbe_cxx_plugins\EntityFactory.h" />
+    <ClInclude Include="kbe_cxx_plugins\GameThreadDispatcher.h" />
+    <ClInclude Include="kbe_cxx_plugins\GateBase.h" />
+    <ClInclude Include="kbe_cxx_plugins\ikcp.h" />
+    <ClInclude Include="kbe_cxx_plugins\Interfaces.h" />
+    <ClInclude Include="kbe_cxx_plugins\KBDebug.h" />
+    <ClInclude Include="kbe_cxx_plugins\KBEBasicTypes.h" />
+    <ClInclude Include="kbe_cxx_plugins\KBECommon.h" />
+    <ClInclude Include="kbe_cxx_plugins\KBEMain.h" />
+    <ClInclude Include="kbe_cxx_plugins\KBENativeSocket.h" />
+    <ClInclude Include="kbe_cxx_plugins\KBEngine.h" />
+    <ClInclude Include="kbe_cxx_plugins\KBEngineArgs.h" />
+    <ClInclude Include="kbe_cxx_plugins\KBETypes.h" />
+    <ClInclude Include="kbe_cxx_plugins\KBEvent.h" />
+    <ClInclude Include="kbe_cxx_plugins\KBEventTypes.h" />
+    <ClInclude Include="kbe_cxx_plugins\KBVariant.h" />
+    <ClInclude Include="kbe_cxx_plugins\Math.h" />
+    <ClInclude Include="kbe_cxx_plugins\MemoryStream.h" />
+    <ClInclude Include="kbe_cxx_plugins\MessageReader.h" />
+    <ClInclude Include="kbe_cxx_plugins\Messages.h" />
+    <ClInclude Include="kbe_cxx_plugins\Method.h" />
+    <ClInclude Include="kbe_cxx_plugins\MonsterBase.h" />
+    <ClInclude Include="kbe_cxx_plugins\NetworkInterfaceBase.h" />
+    <ClInclude Include="kbe_cxx_plugins\NetworkInterfaceKCP.h" />
+    <ClInclude Include="kbe_cxx_plugins\NetworkInterfaceTCP.h" />
+    <ClInclude Include="kbe_cxx_plugins\NPCBase.h" />
+    <ClInclude Include="kbe_cxx_plugins\ObjectPool.h" />
+    <ClInclude Include="kbe_cxx_plugins\Property.h" />
+    <ClInclude Include="kbe_cxx_plugins\ScriptModule.h" />
+    <ClInclude Include="kbe_cxx_plugins\ServerErrorDescrs.h" />
+    <ClInclude Include="kbe_cxx_plugins\SpaceBase.h" />
+    <ClInclude Include="kbe_cxx_plugins\SpaceDuplicateBase.h" />
+    <ClInclude Include="kbe_cxx_plugins\SpacesBase.h" />
+    <ClInclude Include="kbe_cxx_plugins\SpawnPointBase.h" />
+    <ClInclude Include="kbe_cxx_plugins\TestBase.h" />
+    <ClInclude Include="kbe_cxx_plugins\TestNoBaseBase.h" />
+    <ClInclude Include="kbe_cxx_plugins\UKBEMain.h" />
+    <ClInclude Include="kbe_scripts\Account.h" />
+    <ClInclude Include="kbe_scripts\Avatar.h" />
+    <ClInclude Include="kbe_scripts\Components\Test.h" />
+    <ClInclude Include="kbe_scripts\Components\TestNoBase.h" />
+    <ClInclude Include="kbe_scripts\Gate.h" />
+    <ClInclude Include="kbe_scripts\LogicEvents.h" />
+    <ClInclude Include="kbe_scripts\Monster.h" />
+    <ClInclude Include="kbe_scripts\NPC.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="kbe_cxx_plugins\README.md" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

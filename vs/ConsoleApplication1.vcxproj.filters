@@ -1,0 +1,428 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="kbe_cxx_plugins">
+      <UniqueIdentifier>{bf647adc-ff1b-47a0-bd4e-8074a99aee77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="kbe_cxx_plugins\blowfish">
+      <UniqueIdentifier>{d878ee5b-babe-48d3-a69b-ee6fd0545409}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="kbe_scripts">
+      <UniqueIdentifier>{032f4874-71e1-4b9d-be38-1d853af0742a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="kbe_scripts\Components">
+      <UniqueIdentifier>{3515c55c-f77e-4836-a3a1-eeb8f00c7f9b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ConsoleApplication1.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_cxx_plugins\AccountBase.cpp">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_cxx_plugins\AvatarBase.cpp">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_cxx_plugins\Bundle.cpp">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_cxx_plugins\CustomDataTypes.cpp">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_cxx_plugins\DataTypes.cpp">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_cxx_plugins\EncryptionFilter.cpp">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_cxx_plugins\Entity.cpp">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_cxx_plugins\EntityCall.cpp">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_cxx_plugins\EntityCallAccountBase.cpp">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_cxx_plugins\EntityCallAvatarBase.cpp">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_cxx_plugins\EntityCallGateBase.cpp">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_cxx_plugins\EntityCallMonsterBase.cpp">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_cxx_plugins\EntityCallNPCBase.cpp">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_cxx_plugins\EntityCallSpaceBase.cpp">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_cxx_plugins\EntityCallSpaceDuplicateBase.cpp">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_cxx_plugins\EntityCallSpacesBase.cpp">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_cxx_plugins\EntityCallSpawnPointBase.cpp">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_cxx_plugins\EntityCallTestBase.cpp">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_cxx_plugins\EntityCallTestNoBaseBase.cpp">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_cxx_plugins\EntityComponent.cpp">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_cxx_plugins\EntityDef.cpp">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_cxx_plugins\GateBase.cpp">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_cxx_plugins\ikcp.c">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_cxx_plugins\Interfaces.cpp">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_cxx_plugins\KBDebug.cpp">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_cxx_plugins\KBECommon.cpp">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_cxx_plugins\KBEMain.cpp">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_cxx_plugins\KBENativeSocket.cpp">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_cxx_plugins\KBEngine.cpp">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_cxx_plugins\KBEngineArgs.cpp">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_cxx_plugins\KBEvent.cpp">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_cxx_plugins\KBEventTypes.cpp">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_cxx_plugins\MemoryStream.cpp">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_cxx_plugins\MessageReader.cpp">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_cxx_plugins\Messages.cpp">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_cxx_plugins\Method.cpp">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_cxx_plugins\MonsterBase.cpp">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_cxx_plugins\NetworkInterfaceBase.cpp">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_cxx_plugins\NetworkInterfaceKCP.cpp">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_cxx_plugins\NetworkInterfaceTCP.cpp">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_cxx_plugins\NPCBase.cpp">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_cxx_plugins\Property.cpp">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_cxx_plugins\ScriptModule.cpp">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_cxx_plugins\SpaceBase.cpp">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_cxx_plugins\SpaceDuplicateBase.cpp">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_cxx_plugins\SpacesBase.cpp">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_cxx_plugins\SpawnPointBase.cpp">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_cxx_plugins\TestBase.cpp">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_cxx_plugins\TestNoBaseBase.cpp">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_cxx_plugins\UKBEMain.cpp">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_cxx_plugins\blowfish\Blowfish.cpp">
+      <Filter>kbe_cxx_plugins\blowfish</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_scripts\Account.cpp">
+      <Filter>kbe_scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_scripts\Avatar.cpp">
+      <Filter>kbe_scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_scripts\Gate.cpp">
+      <Filter>kbe_scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_scripts\LogicEvents.cpp">
+      <Filter>kbe_scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_scripts\Monster.cpp">
+      <Filter>kbe_scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_scripts\NPC.cpp">
+      <Filter>kbe_scripts</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_scripts\Components\Test.cpp">
+      <Filter>kbe_scripts\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="kbe_scripts\Components\TestNoBase.cpp">
+      <Filter>kbe_scripts\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="KBEApp.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="kbe_cxx_plugins\AccountBase.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\AvatarBase.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\Bundle.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\CustomDataTypes.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\DataTypes.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\EncryptionFilter.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\Entity.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\EntityCall.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\EntityCallAccountBase.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\EntityCallAvatarBase.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\EntityCallGateBase.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\EntityCallMonsterBase.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\EntityCallNPCBase.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\EntityCallSpaceBase.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\EntityCallSpaceDuplicateBase.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\EntityCallSpacesBase.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\EntityCallSpawnPointBase.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\EntityCallTestBase.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\EntityCallTestNoBaseBase.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\EntityComponent.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\EntityComponentFactory.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\EntityDef.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\EntityFactory.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\GameThreadDispatcher.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\GateBase.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\ikcp.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\Interfaces.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\KBDebug.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\KBEBasicTypes.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\KBECommon.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\KBEMain.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\KBENativeSocket.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\KBEngine.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\KBEngineArgs.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\KBETypes.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\KBEvent.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\KBEventTypes.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\KBVariant.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\Math.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\MemoryStream.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\MessageReader.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\Messages.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\Method.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\MonsterBase.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\NetworkInterfaceBase.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\NetworkInterfaceKCP.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\NetworkInterfaceTCP.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\NPCBase.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\ObjectPool.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\Property.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\ScriptModule.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\ServerErrorDescrs.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\SpaceBase.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\SpaceDuplicateBase.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\SpacesBase.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\SpawnPointBase.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\TestBase.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\TestNoBaseBase.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\UKBEMain.h">
+      <Filter>kbe_cxx_plugins</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_cxx_plugins\blowfish\Blowfish.h">
+      <Filter>kbe_cxx_plugins\blowfish</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_scripts\Account.h">
+      <Filter>kbe_scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_scripts\Avatar.h">
+      <Filter>kbe_scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_scripts\Gate.h">
+      <Filter>kbe_scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_scripts\LogicEvents.h">
+      <Filter>kbe_scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_scripts\Monster.h">
+      <Filter>kbe_scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_scripts\NPC.h">
+      <Filter>kbe_scripts</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_scripts\Components\Test.h">
+      <Filter>kbe_scripts\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="kbe_scripts\Components\TestNoBase.h">
+      <Filter>kbe_scripts\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="KBEApp.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="kbe_cxx_plugins\README.md">
+      <Filter>kbe_cxx_plugins</Filter>
+    </None>
+  </ItemGroup>
+</Project>
